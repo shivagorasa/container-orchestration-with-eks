@@ -71,7 +71,7 @@ Configure your aws using aws configure and authenticate with your aws access key
 
 This will create following instance 
 
-![!\[alt text\](image.png)](ec2_terraform.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/e290cbe8-c599-47ce-aafd-05d71f2862da)
 
 
 # Kubernetes setup
@@ -117,18 +117,22 @@ nodeGroups:
 ```
 use ``` eksctl create cluster -f cluster.yaml``` to create cluster
 
-![!\[alt text\](image.png)](<cluster creation.png>)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/f8122c52-ab3f-42e3-82b1-811a32801713)
+
 
 Following cluster is created in aws 
 
-![!\[alt text\](image.png)](cluster.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/e3f60d4a-0741-408f-b233-0a3973e04e17)
+
 
 then verify for instance 
-![!\[alt text\](image.png)](instance-stakc.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/28f73ff5-a4d9-42d4-a873-d05cdb01320b)
+
 
 then use ``` kubectl get nodes``` to verify cluster creation
 
-![!\[alt text\](image.png)](nodes.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/528b2b3e-687c-4daa-a075-a753e6e5915b)
+
 
 # Now to Deploy Application
 
@@ -181,13 +185,14 @@ This configuration defines a Deployment and a Service. The Deployment consists o
 
 create this first variant of the hello-kubernetes app in Kubernetes by running the following command: ```kubectl create -f hello-kubernetes-first.yaml```
 
-![!\[alt text\](image.png)](dep1.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/922ba787-3919-49ff-b8f2-c03aa9dba477)
+
 
 To verify the Service’s creation, run the following command: ```kubectl get service hello-kubernetes-first```
 
 You’ll find that the newly created Service has a ClusterIP assigned, which means that it is working properly.
 
-![!\[alt text\](image.png)](svc.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/3aeeeee8-4667-4dcd-b2a8-b470c5004ea8)
 
 Create a new file called hello-kubernetes-second.yaml:
 ```nano hello-kubernetes-second.yaml``
@@ -231,7 +236,7 @@ spec:
 ```
 similar to above (first deployment) use : ```kubectl create -f hello-kubernetes-second.yaml``` and ```kubectl get service``` to verify 
 
-![!\[alt text\](image.png)](service2.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/9c4a14db-a7cd-404d-bebc-cd04c94b5d37)
 
 Both hello-kubernetes-first and hello-kubernetes-second are listed, which means that Kubernetes has created them successfully.
 
@@ -257,11 +262,12 @@ Run this command to watch the Load Balancer become available:
 ```kubectl --namespace default get services -o wide -w nginx-ingress-ingress-nginx-controller``` 
 This command fetches the Nginx Ingress service in the default namespace and outputs its information, but the command does not exit immediately. With the -w argument, it watches and refreshes the output when changes occur.
 
-![!\[alt text\](image.png)](loadbalancer1.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/2f0fd5af-d209-4ffa-a0c0-f9b78a12878a)
+
 
 After some time has passed, the IP address of your newly created Load Balancer will appear:
 
-![!\[alt text\](image.png)](lboutput.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/ce0bc068-b7a5-4083-802b-4014fb96cd91)
 
 Next, you’ll need to ensure that your two domains are pointed to the Load Balancer via A records. This is done through your DNS provider. 
 
@@ -304,18 +310,18 @@ spec:
             port:
               number: 80
 ```
-We define an Ingress Resource with the name hello-kubernetes-ingress. Then, you specify two host rules so that ```hw1.your_domain``` is routed to the hello-kubernetes-first Service, and ```hw2.your_domain``` is routed to the Service from the second deployment (hello-kubernetes-second).
+We define an Ingress Resource with the name hello-kubernetes-ingress. Then, you specify two host rules so that ```hw1.your_domain``` is routed to the hello-kubernetes-first Service, and ```hw2.your_domain``` is routed to the Service from the second deployment (hello-kubernetes-second). __Here used hw1 and hw2 as example only , use your specified domaina and add necessary Aname and Cname records.__
 
 Create it in Kubernetes by running the following command:
 ```kubectl apply -f hello-kubernetes-ingress.yaml```
 
 We can now navigate to hw1.your_domain in your browser. The first deployment will load:
 
-![alt text](step3a.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/ca07d1a6-4e97-45f5-ac3d-161bdef641f8)
 
 The second variant (hw2.your_domain) will display a different message:
 
-![alt text](step3b.png)
+![image](https://github.com/shivagorasa/container-orchestration-with-eks-/assets/97184376/beebf2f8-4681-4e66-96b8-6f141c0a1a6f)
 
 We have verified that the Ingress Controller correctly routes requests, in this case from your two domains to two different Services.
 
